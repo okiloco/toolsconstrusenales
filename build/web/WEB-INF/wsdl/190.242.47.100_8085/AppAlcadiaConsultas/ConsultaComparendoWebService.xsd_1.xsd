@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.2-b13 (branches/2.2-6964; 2012-01-09T18:04:18+0000) JAXWS-RI/2.2.6-promoted-b20 JAXWS/2.2 svn-revision#unknown. --><xs:schema xmlns:tns="http://services.trafficbaq.tecnosystems.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://services.trafficbaq.tecnosystems.com/">
+
+<xs:element name="consultaComparendo" type="tns:consultaComparendo"/>
+
+<xs:element name="consultaComparendoResponse" type="tns:consultaComparendoResponse"/>
+
+<xs:complexType name="consultaComparendo">
+<xs:sequence>
+<xs:element name="tipo" type="xs:int"/>
+<xs:element name="entrada" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="consultaComparendoResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:serviceResponse" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="serviceResponse">
+<xs:sequence>
+<xs:element name="listComparendos" type="tns:comparendo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="menssage" type="xs:string" minOccurs="0"/>
+<xs:element name="status" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="comparendo">
+<xs:sequence>
+<xs:element name="desc_estado_comparendo" type="xs:string" minOccurs="0"/>
+<xs:element name="desc_estado_financiero" type="xs:string" minOccurs="0"/>
+<xs:element name="desc_infraccion" type="xs:string" minOccurs="0"/>
+<xs:element name="fecha_comparendo" type="xs:string" minOccurs="0"/>
+<xs:element name="fecha_resolucion" type="xs:string" minOccurs="0"/>
+<xs:element name="hora" type="xs:string" minOccurs="0"/>
+<xs:element name="municipio_infraccion" type="xs:string" minOccurs="0"/>
+<xs:element name="nombre_secretaria_transito" type="xs:string" minOccurs="0"/>
+<xs:element name="nro_documento_infractor" type="xs:string" minOccurs="0"/>
+<xs:element name="nro_resolucion" type="xs:string" minOccurs="0"/>
+<xs:element name="ordenComparendo" type="xs:string" minOccurs="0"/>
+<xs:element name="tipoInfraccion" type="xs:string" minOccurs="0"/>
+<xs:element name="valorInfraccion" type="xs:double"/>
+<xs:element name="valor_costas_procesales" type="xs:double"/>
+<xs:element name="valor_intereses" type="xs:double"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

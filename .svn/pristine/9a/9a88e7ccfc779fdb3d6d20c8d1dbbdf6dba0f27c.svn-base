@@ -1,0 +1,79 @@
+
+package com.tecnosystems.trafficbaq.services;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
+
+/**
+ * <p>Clase Java para consultaComparendo complex type.
+ * 
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
+ * 
+ * <pre>
+ * &lt;complexType name="consultaComparendo">
+ *   &lt;complexContent>
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       &lt;sequence>
+ *         &lt;element name="tipo" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="entrada" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *       &lt;/sequence>
+ *     &lt;/restriction>
+ *   &lt;/complexContent>
+ * &lt;/complexType>
+ * </pre>
+ * 
+ * 
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "consultaComparendo", propOrder = {
+    "tipo",
+    "entrada"
+})
+public class ConsultaComparendo {
+
+    protected int tipo;
+    protected String entrada;
+
+    /**
+     * Obtiene el valor de la propiedad tipo.
+     * 
+     */
+    public int getTipo() {
+        return tipo;
+    }
+
+    /**
+     * Define el valor de la propiedad tipo.
+     * 
+     */
+    public void setTipo(int value) {
+        this.tipo = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad entrada.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getEntrada() {
+        return entrada;
+    }
+
+    /**
+     * Define el valor de la propiedad entrada.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setEntrada(String value) {
+        this.entrada = value;
+    }
+
+}

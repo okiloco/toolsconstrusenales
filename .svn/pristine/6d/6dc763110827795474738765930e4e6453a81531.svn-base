@@ -1,0 +1,426 @@
+
+package com.tecnosystems.trafficbaq.services;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+
+/**
+ * <p>Clase Java para comparendo complex type.
+ * 
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
+ * 
+ * <pre>
+ * &lt;complexType name="comparendo">
+ *   &lt;complexContent>
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       &lt;sequence>
+ *         &lt;element name="desc_estado_comparendo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="desc_estado_financiero" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="desc_infraccion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="fecha_comparendo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="fecha_resolucion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="hora" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="municipio_infraccion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="nombre_secretaria_transito" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="nro_documento_infractor" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="nro_resolucion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="ordenComparendo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="tipoInfraccion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="valorInfraccion" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="valor_costas_procesales" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="valor_intereses" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *       &lt;/sequence>
+ *     &lt;/restriction>
+ *   &lt;/complexContent>
+ * &lt;/complexType>
+ * </pre>
+ * 
+ * 
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "comparendo", propOrder = {
+    "descEstadoComparendo",
+    "descEstadoFinanciero",
+    "descInfraccion",
+    "fechaComparendo",
+    "fechaResolucion",
+    "hora",
+    "municipioInfraccion",
+    "nombreSecretariaTransito",
+    "nroDocumentoInfractor",
+    "nroResolucion",
+    "ordenComparendo",
+    "tipoInfraccion",
+    "valorInfraccion",
+    "valorCostasProcesales",
+    "valorIntereses"
+})
+public class Comparendo {
+
+    @XmlElement(name = "desc_estado_comparendo")
+    protected String descEstadoComparendo;
+    @XmlElement(name = "desc_estado_financiero")
+    protected String descEstadoFinanciero;
+    @XmlElement(name = "desc_infraccion")
+    protected String descInfraccion;
+    @XmlElement(name = "fecha_comparendo")
+    protected String fechaComparendo;
+    @XmlElement(name = "fecha_resolucion")
+    protected String fechaResolucion;
+    protected String hora;
+    @XmlElement(name = "municipio_infraccion")
+    protected String municipioInfraccion;
+    @XmlElement(name = "nombre_secretaria_transito")
+    protected String nombreSecretariaTransito;
+    @XmlElement(name = "nro_documento_infractor")
+    protected String nroDocumentoInfractor;
+    @XmlElement(name = "nro_resolucion")
+    protected String nroResolucion;
+    protected String ordenComparendo;
+    protected String tipoInfraccion;
+    protected double valorInfraccion;
+    @XmlElement(name = "valor_costas_procesales")
+    protected double valorCostasProcesales;
+    @XmlElement(name = "valor_intereses")
+    protected double valorIntereses;
+
+    /**
+     * Obtiene el valor de la propiedad descEstadoComparendo.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getDescEstadoComparendo() {
+        return descEstadoComparendo;
+    }
+
+    /**
+     * Define el valor de la propiedad descEstadoComparendo.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setDescEstadoComparendo(String value) {
+        this.descEstadoComparendo = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad descEstadoFinanciero.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getDescEstadoFinanciero() {
+        return descEstadoFinanciero;
+    }
+
+    /**
+     * Define el valor de la propiedad descEstadoFinanciero.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setDescEstadoFinanciero(String value) {
+        this.descEstadoFinanciero = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad descInfraccion.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getDescInfraccion() {
+        return descInfraccion;
+    }
+
+    /**
+     * Define el valor de la propiedad descInfraccion.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setDescInfraccion(String value) {
+        this.descInfraccion = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad fechaComparendo.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getFechaComparendo() {
+        return fechaComparendo;
+    }
+
+    /**
+     * Define el valor de la propiedad fechaComparendo.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setFechaComparendo(String value) {
+        this.fechaComparendo = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad fechaResolucion.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getFechaResolucion() {
+        return fechaResolucion;
+    }
+
+    /**
+     * Define el valor de la propiedad fechaResolucion.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setFechaResolucion(String value) {
+        this.fechaResolucion = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad hora.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getHora() {
+        return hora;
+    }
+
+    /**
+     * Define el valor de la propiedad hora.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setHora(String value) {
+        this.hora = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad municipioInfraccion.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getMunicipioInfraccion() {
+        return municipioInfraccion;
+    }
+
+    /**
+     * Define el valor de la propiedad municipioInfraccion.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setMunicipioInfraccion(String value) {
+        this.municipioInfraccion = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad nombreSecretariaTransito.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getNombreSecretariaTransito() {
+        return nombreSecretariaTransito;
+    }
+
+    /**
+     * Define el valor de la propiedad nombreSecretariaTransito.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setNombreSecretariaTransito(String value) {
+        this.nombreSecretariaTransito = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad nroDocumentoInfractor.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getNroDocumentoInfractor() {
+        return nroDocumentoInfractor;
+    }
+
+    /**
+     * Define el valor de la propiedad nroDocumentoInfractor.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setNroDocumentoInfractor(String value) {
+        this.nroDocumentoInfractor = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad nroResolucion.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getNroResolucion() {
+        return nroResolucion;
+    }
+
+    /**
+     * Define el valor de la propiedad nroResolucion.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setNroResolucion(String value) {
+        this.nroResolucion = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad ordenComparendo.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getOrdenComparendo() {
+        return ordenComparendo;
+    }
+
+    /**
+     * Define el valor de la propiedad ordenComparendo.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setOrdenComparendo(String value) {
+        this.ordenComparendo = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad tipoInfraccion.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getTipoInfraccion() {
+        return tipoInfraccion;
+    }
+
+    /**
+     * Define el valor de la propiedad tipoInfraccion.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setTipoInfraccion(String value) {
+        this.tipoInfraccion = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad valorInfraccion.
+     * 
+     */
+    public double getValorInfraccion() {
+        return valorInfraccion;
+    }
+
+    /**
+     * Define el valor de la propiedad valorInfraccion.
+     * 
+     */
+    public void setValorInfraccion(double value) {
+        this.valorInfraccion = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad valorCostasProcesales.
+     * 
+     */
+    public double getValorCostasProcesales() {
+        return valorCostasProcesales;
+    }
+
+    /**
+     * Define el valor de la propiedad valorCostasProcesales.
+     * 
+     */
+    public void setValorCostasProcesales(double value) {
+        this.valorCostasProcesales = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad valorIntereses.
+     * 
+     */
+    public double getValorIntereses() {
+        return valorIntereses;
+    }
+
+    /**
+     * Define el valor de la propiedad valorIntereses.
+     * 
+     */
+    public void setValorIntereses(double value) {
+        this.valorIntereses = value;
+    }
+
+}

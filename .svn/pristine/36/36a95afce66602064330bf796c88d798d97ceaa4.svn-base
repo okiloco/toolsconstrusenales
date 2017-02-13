@@ -1,0 +1,87 @@
+
+package com.tecnosystems.trafficbaq.services;
+
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
+import javax.xml.namespace.QName;
+
+
+/**
+ * This object contains factory methods for each 
+ * Java content interface and Java element interface 
+ * generated in the com.tecnosystems.trafficbaq.services package. 
+ * <p>An ObjectFactory allows you to programatically 
+ * construct new instances of the Java representation 
+ * for XML content. The Java representation of XML 
+ * content can consist of schema derived interfaces 
+ * and classes representing the binding of schema 
+ * type definitions, element declarations and model 
+ * groups.  Factory methods for each of these are 
+ * provided in this class.
+ * 
+ */
+@XmlRegistry
+public class ObjectFactory {
+
+    private final static QName _ConsultaComparendoResponse_QNAME = new QName("http://services.trafficbaq.tecnosystems.com/", "consultaComparendoResponse");
+    private final static QName _ConsultaComparendo_QNAME = new QName("http://services.trafficbaq.tecnosystems.com/", "consultaComparendo");
+
+    /**
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.tecnosystems.trafficbaq.services
+     * 
+     */
+    public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link ConsultaComparendoResponse }
+     * 
+     */
+    public ConsultaComparendoResponse createConsultaComparendoResponse() {
+        return new ConsultaComparendoResponse();
+    }
+
+    /**
+     * Create an instance of {@link ConsultaComparendo }
+     * 
+     */
+    public ConsultaComparendo createConsultaComparendo() {
+        return new ConsultaComparendo();
+    }
+
+    /**
+     * Create an instance of {@link ServiceResponse }
+     * 
+     */
+    public ServiceResponse createServiceResponse() {
+        return new ServiceResponse();
+    }
+
+    /**
+     * Create an instance of {@link Comparendo }
+     * 
+     */
+    public Comparendo createComparendo() {
+        return new Comparendo();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ConsultaComparendoResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://services.trafficbaq.tecnosystems.com/", name = "consultaComparendoResponse")
+    public JAXBElement<ConsultaComparendoResponse> createConsultaComparendoResponse(ConsultaComparendoResponse value) {
+        return new JAXBElement<ConsultaComparendoResponse>(_ConsultaComparendoResponse_QNAME, ConsultaComparendoResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ConsultaComparendo }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://services.trafficbaq.tecnosystems.com/", name = "consultaComparendo")
+    public JAXBElement<ConsultaComparendo> createConsultaComparendo(ConsultaComparendo value) {
+        return new JAXBElement<ConsultaComparendo>(_ConsultaComparendo_QNAME, ConsultaComparendo.class, null, value);
+    }
+
+}

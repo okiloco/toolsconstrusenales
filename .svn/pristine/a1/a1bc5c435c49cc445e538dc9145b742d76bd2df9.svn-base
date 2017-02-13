@@ -1,0 +1,170 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ejb;
+
+import co.tecnosystems.util.Mail;
+import javax.annotation.PostConstruct;
+import javax.ejb.Schedule;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import javax.mail.MessagingException;
+import javax.naming.NamingException;
+
+/**
+ *
+ *
+ */
+@Singleton
+@Startup
+
+public class RecuperarPost {
+
+    @PostConstruct
+    public void init() {
+
+//        myTimer();
+//        myTimer1();
+//        myTimer2();
+    }
+
+//    @Schedule(second = "*/30", minute = "*", hour = "*")
+    public void myTimer() {
+        try {
+
+            URL url = new URL("http://10.1.2.201:8080/Server/webresources/resolv/response");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+
+            if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + conn.getResponseCode());
+            }
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (conn.getInputStream())));
+
+            String output;
+
+            while ((output = br.readLine()) != null) {
+          //      System.out.println(output);
+            }
+
+            conn.disconnect();
+
+        } catch (MalformedURLException e) {
+
+            e.printStackTrace();
+
+        } catch (IOException e) {
+            String ip = "10.1.2.201";
+            correo(ip);
+
+        }
+
+    }
+
+    public void myTimer1() {
+        try {
+
+            URL url = new URL("http://10.1.2.49:8085/Server/webresources/resolv/response");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+
+            if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + conn.getResponseCode());
+            }
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (conn.getInputStream())));
+
+            String output;
+
+            while ((output = br.readLine()) != null) {
+             //   System.out.println(output);
+            }
+
+            conn.disconnect();
+
+        } catch (MalformedURLException e) {
+
+            e.printStackTrace();
+
+        } catch (IOException e) {
+            String ip = "10.1.2.49";
+            correo(ip);
+
+        }
+
+    }
+
+    public void myTimer2() {
+        try {
+
+            URL url = new URL("http://10.1.2.46:8080/Server/webresources/resolv/response");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+
+            if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + conn.getResponseCode());
+            }
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (conn.getInputStream())));
+
+            String output;
+
+            while ((output = br.readLine()) != null) {
+             //   System.out.println(output);
+            }
+
+            conn.disconnect();
+
+        } catch (MalformedURLException e) {
+
+            e.printStackTrace();
+
+        } catch (IOException e) {
+            String ip = "10.1.2.46";
+
+            correo(ip);
+        }
+
+    }
+
+    public void correo(String ip) {
+        try {
+
+            String email1 = "wmanotas@orden.co";
+            String email2 = "vbarranco@orden.co";
+            String email3 = "josemejia@ingenieria21.co";
+
+            Mail.sendMail(email1, "servidor ", "" + ip + " esta caido");
+            Mail.sendMail(email2, "servidor ", "" + ip + " esta caido");
+            Mail.sendMail(email3, "servidor ", "" + ip + " esta caido");
+
+        } catch (NamingException e) {
+
+        } catch (MessagingException e) {
+
+        }
+
+    }
+
+}

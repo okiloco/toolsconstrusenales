@@ -1,0 +1,465 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.tecnosystems.service;
+
+import co.tecnosystems.facade.FacadePeticiones;
+import co.tecnosystems.util.DateUtil;
+import java.io.IOException;
+import java.sql.SQLException;
+import javax.ejb.Stateless;
+import javax.servlet.http.HttpServletResponse;
+import co.tecnosystems.util.GenericJSONResponse;
+import co.tecnosystems.util.GenericUtils;
+import javax.ws.rs.PUT;
+import co.tecnosystems.util.HttpResponse;
+import flexjson.JSONSerializer;
+import flexjson.transformer.DateTransformer;
+import java.util.Calendar;
+import java.util.Date;
+import javax.ws.rs.FormParam;
+import org.json.simple.parser.ParseException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.POST;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
+/**
+ * REST Web Service
+ *
+ *
+ */
+@Stateless
+@Path("Peticiones")
+public class PeticionesResource {
+
+    @Context
+    private HttpServletRequest request;
+
+    @Context
+    private HttpServletResponse response;
+
+    @EJB
+    private FacadePeticiones dao;
+
+    /**
+     * Creates a new instance of ReporteResource
+     */
+    public PeticionesResource() {
+    }
+
+    /**
+     * Retrieves representation of an instance of
+     * co.tecnosystems.service.ReporteResource
+     *
+     * @return an instance of java.lang.String
+     */
+    /**
+     * PUT method for updating or creating an instance of ReporteResource
+     *
+     * @param content representation for the resource
+     */
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void putJson(String content) {
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("tipoSolicitud")
+    public String tipoSolicitud(@FormParam("organismo") int organismo) throws SQLException, ParseException {
+
+        try {
+
+            HashMap<String, Object> hm = dao.listar(organismo);
+            List list = (List) hm.get("lista");
+
+            return new JSONSerializer()
+                    .include(HttpResponse.DATA)
+                    .serialize(HttpResponse.message("OK", list));
+        } catch (IOException e) {
+            return new GenericJSONResponse(false, GenericJSONResponse.GENERAL_BUSINESS_LOGIC_ERROR, "error " + e.getMessage()).toString();
+        }
+
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("estadoSolicitud")
+    public String estadoSolicitud(@FormParam("organismo") int organismo) throws SQLException, ParseException {
+
+        try {
+
+            HashMap<String, Object> hm = dao.listarEstados(organismo);
+            List list = (List) hm.get("lista");
+
+            return new JSONSerializer()
+                    .include(HttpResponse.DATA)
+                    .serialize(HttpResponse.message("OK", list));
+        } catch (IOException e) {
+            return new GenericJSONResponse(false, GenericJSONResponse.GENERAL_BUSINESS_LOGIC_ERROR, "error " + e.getMessage()).toString();
+        }
+
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("usuarios")
+    public String usuarios(
+            @FormParam("organismo") int organismo,
+            @FormParam("filtro") String filtro) throws SQLException, ParseException {
+
+        try {
+            HashMap<String, Object> hm = dao.listarUsuario(organismo, filtro);
+            List list = (List) hm.get("lista");
+            return new JSONSerializer()
+                    .include(HttpResponse.DATA)
+                    .serialize(HttpResponse.message("OK", list, list.size()));
+        } catch (IOException e) {
+            return new GenericJSONResponse(false, GenericJSONResponse.GENERAL_BUSINESS_LOGIC_ERROR, "error " + e.getMessage()).toString();
+        }
+
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("usuariosPeticiones")
+    public String usuariosPeticiones(@FormParam("organismo") int organismo) throws SQLException, ParseException {
+
+        try {
+            HashMap<String, Object> hm = dao.listarUsuarioPeticiones(organismo);
+            List list = (List) hm.get("lista");
+            return new JSONSerializer()
+                    .include(HttpResponse.DATA)
+                    .serialize(HttpResponse.message("OK", list, list.size()));
+        } catch (IOException e) {
+            return new GenericJSONResponse(false, GenericJSONResponse.GENERAL_BUSINESS_LOGIC_ERROR, "error " + e.getMessage()).toString();
+        }
+
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("crearUsuarioPeticion")
+    public String crearUsuarioPeticion(
+            @FormParam("organismo") int organismo,
+            @FormParam("ID") Integer idusuario,//ID FORANEO DE LA TABLA USUARIO
+            @FormParam("nombre") String nombre,
+            @FormParam("usuarioRegistro") Integer usuarioRegistro,
+            @FormParam("idusuarioDevolucion") int idusuarioDevolucion,
+            @FormParam("idusuarioAprobacion") int idusuarioAprobacion,
+            @FormParam("CHECKED") Integer checked) throws SQLException, ParseException {
+
+        try {
+
+            if (idusuarioDevolucion == 0) {
+                return new GenericJSONResponse(false, GenericJSONResponse.GENERAL_BUSINESS_LOGIC_ERROR, "Debe seleccionar un usuario devolución").toString();
+
+            }
+
+            if (idusuarioAprobacion == 0) {
+                return new GenericJSONResponse(false, GenericJSONResponse.GENERAL_BUSINESS_LOGIC_ERROR, "Debe seleccionar un usuario aprobación").toString();
+
+            }
+
+            GenericJSONResponse mensaje = dao.crearUsuarioPeticiones(organismo, idusuario, nombre, usuarioRegistro, checked, idusuarioDevolucion, idusuarioAprobacion);
+            return mensaje.toString();
+
+        } catch (IOException e) {
+            return new GenericJSONResponse(false, GenericJSONResponse.GENERAL_BUSINESS_LOGIC_ERROR, "error " + e.getMessage()).toString();
+        }
+
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("registarPeticion")
+    public String registarPeticion(
+            @FormParam("organismo") int organismo,
+            @FormParam("nroradicado") Integer nroradicado,
+            @FormParam("fechradicado") String fechradicad,
+            @FormParam("nompeticionario") String nompeticionario,
+            @FormParam("idsolicitud") Integer idsolicitud,
+            @FormParam("idresponsable") Integer idresponsable,
+            @FormParam("direccion") String direccion,
+            @FormParam("cedula") String cedula,
+            @FormParam("observacion") String observacion
+    ) throws SQLException, ParseException {
+
+        try {
+
+            Date fechradicados = GenericUtils.getDateFromString("yyyy-MM-dd", fechradicad);
+            GenericJSONResponse mensaje = dao.registarPeticion(organismo, nroradicado, fechradicados, nompeticionario, idsolicitud,
+                    idresponsable, direccion, cedula, observacion);
+            return mensaje.toString();
+
+        } catch (IOException e) {
+            return new GenericJSONResponse(false, GenericJSONResponse.GENERAL_BUSINESS_LOGIC_ERROR, "error " + e.getMessage()).toString();
+        }
+
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("listarPeticiones")
+    public String listarPeticiones(
+            @FormParam("organismo") int organismo,
+            @FormParam("numeroRadicado") int numeroRadicado,
+            @FormParam("usuario") int usuario,
+            @FormParam("fechradicado") String fechradicad,
+            @FormParam("fase") int estadopeticion
+    ) throws SQLException, ParseException {
+        Date fechradicados = null;
+
+        try {
+            if (!fechradicad.equals("")) {
+                fechradicados = GenericUtils.getDateFromString("yyyy-MM-dd", fechradicad);
+
+            }
+            HashMap<String, Object> hm = dao.listarPeticiones(organismo, numeroRadicado, usuario, fechradicados, estadopeticion);
+            List list = (List) hm.get("lista");
+            return new JSONSerializer()
+                    .include(HttpResponse.DATA)
+                    .transform(new DateTransformer(DateUtil.FORMAT_SQL), "data.FECREGRADICADO", "data.FECVENCIMIENTO")
+                    .transform(new DateTransformer(DateUtil.FORMAT_DATE_TIME), "data.FECREGPETICION")
+                    .serialize(HttpResponse.message("OK", list, list.size()));
+        } catch (IOException e) {
+            return new GenericJSONResponse(false, GenericJSONResponse.GENERAL_BUSINESS_LOGIC_ERROR, "error " + e.getMessage()).toString();
+        }
+
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("listarPeticionesUsuario")
+    public String listarPeticionesUsuario(
+            @FormParam("organismo") int organismo,
+            @FormParam("numeroRadicado") int numeroRadicado,
+            @FormParam("usuario") int usuario,
+            @FormParam("fechradicado") String fechradicad
+    ) throws SQLException, ParseException {
+
+        Date fechradicados = GenericUtils.getDateFromString("yyyy-MM-dd", fechradicad);
+        try {
+            HashMap<String, Object> hm = dao.listarPeticionesUsuario(organismo, numeroRadicado, usuario, fechradicados);
+            List list = (List) hm.get("lista");
+            return new JSONSerializer()
+                    .include(HttpResponse.DATA)
+                    .transform(new DateTransformer(DateUtil.FORMAT_SQL), "data.FECREGRADICADO", "data.FECVENCIMIENTO")
+                    .transform(new DateTransformer(DateUtil.FORMAT_DATE_TIME), "data.FECREGPETICION")
+                    .serialize(HttpResponse.message("OK", list));
+        } catch (IOException e) {
+            return new GenericJSONResponse(false, GenericJSONResponse.GENERAL_BUSINESS_LOGIC_ERROR, "error " + e.getMessage()).toString();
+        }
+
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("peticionCambiarEstado")
+    public String peticionCambiarEstado(
+            @FormParam("ORGANISMO") int organismo,
+            @FormParam("ID") String IdPeticions,
+            @FormParam("IDREGISTRO_ESTADOS_PETICIONES") String IdRegistroEsts,
+            @FormParam("IDESTADOPETICIO") int estadoPeticion,
+            @FormParam("IDFUNCRESPONSABLE") int usuario,
+            @FormParam("IDTIPOSOLICITUD") int idtiposolicitud,
+            @FormParam("IDUSUARIO") int usuariosession
+    ) throws SQLException, ParseException {
+        GenericJSONResponse mensaje = null;
+
+        String vec[];
+        String vec1[];
+        if (!IdPeticions.equals("") && !IdRegistroEsts.equals("")) {
+            String vecT[] = IdPeticions.split(",");
+            String vecT1[] = IdRegistroEsts.split(",");
+
+            vec = new String[vecT.length];
+            vec1 = new String[vecT1.length];
+
+            for (int i = 0; i < vecT.length; i++) {
+                vec[i] = (vecT[i].trim());
+                vec1[i] = (vecT1[i].trim());
+            }
+
+        } else {
+            vec = new String[0];
+            vec1 = new String[0];
+        }
+        try {
+            for (int i = 0; i < vec.length; i++) {
+                mensaje = dao.peticionCambiarEstado(organismo, vec[i], vec1[i], estadoPeticion, usuario, idtiposolicitud, usuariosession);
+
+            }
+
+            return mensaje.toString();
+        } catch (Exception ex) {
+            return new GenericJSONResponse(false, GenericJSONResponse.INTERNAL_ERROR_STATUS, ex.getMessage()).toString();
+        }
+
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("add")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public String addEvidence(@Context HttpServletRequest request) {
+
+        GenericJSONResponse response = null;
+
+        if (ServletFileUpload.isMultipartContent(request)) {
+            try {
+
+                String basePath = System.getProperty("PETICIONES_PATH");
+                DiskFileItemFactory factory = new DiskFileItemFactory();
+                int maxMemSize = 600 * 480;
+                factory.setSizeThreshold(maxMemSize);
+                ServletFileUpload upload = new ServletFileUpload(factory);
+                List<FileItem> items = upload.parseRequest(request);
+
+                // HashMap<String, String> fields = new HashMap<>();
+                Map<String, String> fields = new HashMap<String, String>();
+                String fileName = "";
+                byte[] data = null;
+                for (FileItem item : items) {
+                    if (item.isFormField()) {
+                        fields.put(item.getFieldName(), item.getString());
+                    } else if ("evidence_file".equals(item.getFieldName())) {
+                        fileName = item.getName();
+                        data = item.get();
+                    }
+                }
+                response = dao.add(basePath, fileName, Integer.parseInt(fields.get("usuario")), Integer.parseInt(fields.get("idpeticion")), Integer.parseInt(fields.get("organismo")), data);
+            } catch (FileUploadException ex) {
+                ex.printStackTrace();
+                response = new GenericJSONResponse(false, GenericJSONResponse.INTERNAL_ERROR_STATUS, "No se pudo subir el archivo exitosamente");
+            }
+        } else {
+            response = new GenericJSONResponse(false, GenericJSONResponse.INTERNAL_ERROR_STATUS, "La peticion no satisface el formato MultiPart");
+        }
+
+        return response.toString();
+    }
+
+    @GET
+    @Path("/listarEvidencias/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getEvidence(@Context HttpServletRequest request,
+            @QueryParam("IDPETICION") int evidencia,
+            @QueryParam("organismo") int organismo)
+            throws IOException, SQLException, ParseException {
+        GenericJSONResponse response = null;
+        try {
+            HashMap<String, Object> hm = dao.listarEvidencias(organismo, evidencia);
+            List list = (List) hm.get("lista");
+            return new JSONSerializer()
+                    .include(HttpResponse.DATA)
+                    .serialize(HttpResponse.message("OK", list));
+        } catch (IOException e) {
+            return new GenericJSONResponse(false, GenericJSONResponse.GENERAL_BUSINESS_LOGIC_ERROR, "error " + e.getMessage()).toString();
+        }
+    }
+
+    @POST
+    @Path("Aprobar")
+    @Produces("application/json")
+    public String create(@Context HttpServletRequest request,
+            @FormParam("organismo") int organismo,
+            @FormParam("IDPETICION") String peticion,
+            @FormParam("IDRESPONSABLE") Integer responsbale
+    ) {
+        try {
+            String vec[];
+            if (!peticion.equals("")) {
+                String vecT[] = peticion.split(",");
+                vec = new String[vecT.length];
+                for (int i = 0; i < vecT.length; i++) {
+                    vec[i] = (vecT[i].trim());
+                }
+
+            } else {
+                vec = new String[0];
+            }
+            String estadoPeticion = null;
+            try {
+                for (int i = 0; i < vec.length; i++) {
+                    estadoPeticion = dao.aprobar(vec[i], organismo, responsbale);
+                }
+
+                return new GenericJSONResponse(true, GenericJSONResponse.SUCCESFUL_PROCESSED_STATUS, estadoPeticion).toString();
+            } catch (Exception ex) {
+                return new GenericJSONResponse(false, GenericJSONResponse.INTERNAL_ERROR_STATUS, ex.getMessage()).toString();
+            }
+
+        } catch (Exception e) {
+            return new GenericJSONResponse(false, GenericJSONResponse.INTERNAL_ERROR_STATUS, e.getCause().getMessage()).toString();
+        }
+
+    }
+
+    @POST
+    @Path("aprobarPeticiones")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String aprobarPeticiones(
+            @FormParam("idpeticiones") String idpeticiones,
+            @FormParam("idusuario") int idusuario,
+            @FormParam("organismo") int organismo)
+            throws SQLException, ParseException {
+        try {
+            GenericJSONResponse mensaje = dao.aprobarPeticiones(idpeticiones, idusuario, organismo);
+            return mensaje.toString();
+        } catch (Exception e) {
+            return new GenericJSONResponse(false, GenericJSONResponse.GENERAL_BUSINESS_LOGIC_ERROR, "Error " + e.getMessage()).toString();
+        }
+    }
+
+    @POST
+    @Path("devolverPeticiones")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String devolverPeticiones(
+            @FormParam("idpeticiones") String idpeticiones,
+            @FormParam("idusuario") int idusuario,
+            @FormParam("organismo") int organismo)
+            throws SQLException, ParseException {
+        try {
+            GenericJSONResponse mensaje = dao.devolverPeticiones(idpeticiones, idusuario, organismo);
+            return mensaje.toString();
+        } catch (Exception e) {
+            return new GenericJSONResponse(false, GenericJSONResponse.GENERAL_BUSINESS_LOGIC_ERROR, "Error " + e.getMessage()).toString();
+        }
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("eliminarEvidencia")
+    public String crearUsuarioPeticion(
+            @FormParam("organismo") int organismo,
+            @FormParam("ID") int idEvidencia) throws SQLException, ParseException {
+
+        try {
+
+            GenericJSONResponse mensaje = dao.eliminarEvidenciaPeticiones(organismo, idEvidencia);
+            return mensaje.toString();
+
+        } catch (IOException e) {
+            return new GenericJSONResponse(false, GenericJSONResponse.GENERAL_BUSINESS_LOGIC_ERROR, "error " + e.getMessage()).toString();
+        }
+
+    }
+
+}

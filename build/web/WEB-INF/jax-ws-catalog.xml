@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://190.242.47.100:8085/AppAlcadiaConsultas/ConsultaComparendoWebService?wsdl" uri="wsdl/190.242.47.100_8085/AppAlcadiaConsultas/ConsultaComparendoWebService.wsdl"/>
+    <system systemId="http://190.242.47.100:8085/AppAlcadiaConsultas/ConsultaComparendoWebService?xsd=1" uri="wsdl/190.242.47.100_8085/AppAlcadiaConsultas/ConsultaComparendoWebService.xsd_1.xsd"/>
+    <system systemId="http://190.242.47.100:8085/ToolsConstrusenales/webresources/application.wadl" uri="wsdl/190.242.47.100_8085/ToolsConstrusenales/webresources/application.wadl.xml"/>
+</catalog>

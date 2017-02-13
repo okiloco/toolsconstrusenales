@@ -1,0 +1,118 @@
+package co.tecnosystems.manager;
+
+import co.tecnosystems.bean.DBEntity;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+public class DBManager {
+
+    protected Connection connection;
+    private String dbServer = "";
+    private String dbName = "";
+    private String dbUser = "";
+    private String dbPassword = "";
+
+    public DBManager(String dbServer, String dbName, String dbUser, String dbPassword, String organismo) throws SQLException, IOException, ParseException {
+        String port = ":5432";
+        //jdbc:postgresql://10.10.0.103:5432/firefighters_baq
+        String url = "jdbc:postgresql://" + dbServer + port + "/" + dbName + "?user=" + dbUser + "&password=" + dbPassword;
+        connection = DriverManager.getConnection(url);
+
+    }
+
+    public DBManager(int organismo) throws SQLException, IOException, ParseException {
+        String path = System.getProperty("MOVILIDAD_FOLDER_DBS_CONFIG");
+        JSONParser jsparse = new JSONParser();
+
+        JSONArray jsonarray = (JSONArray) jsparse.parse(new FileReader(path + "configDBs.json"));
+        for (Object obj : jsonarray) {
+            JSONObject jsonobject = (JSONObject) obj;
+            if (organismo == Integer.parseInt(jsonobject.get("organismo").toString())) {
+                dbServer = jsonobject.get("host").toString();
+                dbName = jsonobject.get("dbname").toString();
+                dbUser = jsonobject.get("username").toString();
+                dbPassword = jsonobject.get("password").toString();
+                break;
+            }
+        }
+        String url = "jdbc:postgresql://" + dbServer + "/" + dbName + "?user=" + dbUser + "&password=" + dbPassword;
+        connection = DriverManager.getConnection(url);
+
+    }
+
+    public void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public static String returnexoneracion(Connection conn, String placa) throws SQLException {
+
+        CallableStatement cstmt;
+
+        if (conn == null) {
+            return null;
+        }
+        String query = "select * from dtraffic.\"BUSCARPLACAEXONERADA\"('" + placa + "')";
+        try {
+            cstmt = conn.prepareCall(query);
+            ResultSet rs = cstmt.executeQuery();
+            if (rs != null) {
+                while (rs.next()) {
+                    String response = rs.getString("status");
+                    return response;
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "no encontrado";
+
+    }
+
+    //CONSUMO DE PL  NIT EXONERADOS FUERZAS MILITARES
+    public static String returnexoneracionnit(Connection conn, String nit) throws SQLException {
+
+        CallableStatement cstmt;
+
+        if (conn == null) {
+            return null;
+        }
+        String query = "select * from dtraffic.\"BUSCARNITEXONERADO\"('" + nit + "')";
+        try {
+            cstmt = conn.prepareCall(query);
+            ResultSet rs = cstmt.executeQuery();
+            if (rs != null) {
+                while (rs.next()) {
+                    String response = rs.getString("status");
+                    return response;
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "no encontrado";
+
+    }
+}

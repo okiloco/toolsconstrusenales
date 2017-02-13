@@ -1,0 +1,62 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.tecnosystems.service;
+
+import co.tecnosystems.facade.RecaudoFacade;
+
+import co.tecnosystems.util.GenericJSONResponse;
+import co.tecnosystems.util.JsonResponse1;
+import flexjson.JSONSerializer;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.Path;
+import javax.ws.rs.POST;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType; 
+
+import org.json.simple.parser.ParseException;
+
+/**
+ *
+ * @author fvargas
+ */
+
+@Path("recaudos")
+@Stateless
+public class RecaudoService {
+
+    @EJB
+    private RecaudoFacade RecaudoF;
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("listarRecaudos")
+    public String listarComparendosAudiencia(
+            @FormParam("fecha_inicio") String fechaInicio,
+            @FormParam("fecha_fin") String fechaFin
+    ) throws SQLException, ParseException {
+
+        try {
+
+            HashMap<String, Object> hm = RecaudoF.ListarRecaudoDiario(fechaInicio, fechaFin);
+
+            List list = (List) hm.get("lista");
+
+            return new JSONSerializer()
+                    .include(JsonResponse1.DATA)
+                    .serialize(JsonResponse1.message("OK", list));
+        } catch (IOException e) {
+            return new GenericJSONResponse(false, GenericJSONResponse.GENERAL_BUSINESS_LOGIC_ERROR, "error " + e.getMessage()).toString();
+        }
+
+    }
+
+}
